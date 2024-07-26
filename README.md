@@ -18,7 +18,7 @@ Learning a new language can be challenging, especially when it comes to building
 
 - **Common Words**: Generates a list of the most common French words used in everyday conversation.
 - **Definitions & Examples**: Each word is accompanied by a definition, pronunciation audio file and example sentences.
-- **Easy Integration**: The output can be easily integrated into language learning applications or flashcard tools.
+- **Easy Integration**: The JSON output can be easily integrated into language learning applications or flashcard tools.
 
 ## Data Sources
 
