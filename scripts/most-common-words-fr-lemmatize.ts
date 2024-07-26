@@ -34,7 +34,7 @@ export function mostCommonWordsLemmatize(jsonFilePath?: string): Promise<BaseDic
             .on('end', () => {
                 const mostCommon10000 = [...jsonData].slice(0, 10000)
                 if (jsonFilePath) {
-                    fs.writeFileSync(jsonFilePath, JSON.stringify(mostCommon10000, null, 4));
+                    fs.writeFileSync(jsonFilePath, JSON.stringify(Object.fromEntries(new Map(mostCommon10000)), null, 4));
                     resolve()
                 } else {
                     resolve(new Map(mostCommon10000));

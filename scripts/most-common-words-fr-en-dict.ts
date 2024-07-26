@@ -1,6 +1,6 @@
 import fs from 'fs';
 import readline from 'readline';
-import { Dictionary, KaikkiDictionary, KaikkiWord, WordId } from './types';
+import { Dictionary, DictionaryWord, KaikkiDictionary, KaikkiWord, WordId } from './types';
 import { mostCommonWordsLemmatize } from './most-common-words-fr-lemmatize';
 
 const KAIKKI_DICT_PATH_FILE = './resources/kaikki.org-dictionary-French.jsonl';
@@ -76,7 +76,8 @@ export async function generateMostCommonWordsFrEnDict() {
         process.stdout.write(logLine + ' ' + ((counter / baseDictionary.size) * 100).toFixed(2) + '%');
 
     }
-    fs.writeFileSync(OUTPUT_DICT_PATH_FILE, JSON.stringify([...dictionary], null, 4));
+
+    fs.writeFileSync(OUTPUT_DICT_PATH_FILE, JSON.stringify(Object.fromEntries(dictionary), null, 4));
     printLog("✅ Adding Kaikki info to dictionary with the 10000 most common words\n")
     printLog(`\n✨ You can find the ${dictionary.size} most commont words English-French dictionary in ${OUTPUT_DICT_PATH_FILE} ` + '\n')
 }
