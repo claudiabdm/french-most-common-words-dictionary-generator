@@ -44,7 +44,7 @@ export async function generateMostCommonWordsFrEnDict() {
                     word: dictWord.word,
                     rank: baseDictionary.get(word)!.rank,
                     category: dictWord.pos,
-                    pronounciation: dictWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
+                    pronunciation: dictWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
                     senses: dictWord.senses,
                 })
             } else {
@@ -61,7 +61,7 @@ export async function generateMostCommonWordsFrEnDict() {
                         word: kaikkiWord.word,
                         rank: baseDictionary.get(word)!.rank,
                         category: kaikkiWord.pos,
-                        pronounciation: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
+                        pronunciation: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
                         senses: kaikkiWord.senses,
                     })
                 }

@@ -76,7 +76,7 @@ export interface KaikkiWord {
 export type KaikkiDictionary = Map<WordId, KaikkiWord>
 
 export interface DictionaryWord extends BaseWord, Pick<KaikkiWord, 'senses'> {
-    pronounciation: `${string}.ogg` | undefined
+    pronunciation: `${string}.ogg` | undefined
 }
 
 export type Dictionary = Map<WordId, DictionaryWord>
