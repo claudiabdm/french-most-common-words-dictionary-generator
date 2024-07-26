@@ -7,10 +7,7 @@ This repository contains a script to generate a dictionary of the ~10000 most co
 - [Introduction](#introduction)
 - [Features](#features)
 - [Data Sources](#data-sources)
-- [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -28,3 +25,8 @@ The dictionary generation relies on the following data sources:
 
 - [lexique.org](http://lexique.org): A comprehensive lexical database for the French language.
 - [kaikki.org](https://kaikki.org): A multilingual dictionary that provides translations and definitions.
+
+## Usage
+```bash
+sh generate-dict.sh
+```
