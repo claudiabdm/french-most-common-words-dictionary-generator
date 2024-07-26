@@ -1,3 +1,4 @@
+# 🚧 WIP
 # 🇫🇷 French Most Common Words Dictionary Generator
 
 This repository contains a script to generate a dictionary of the ~10000 most common words in French, specifically tailored for English speakers who are learning the French language. The word lists are curated from reputable linguistic sources.
