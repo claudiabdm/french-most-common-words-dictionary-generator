@@ -1,9 +1,9 @@
 import fs from 'fs';
-import readline from 'readline';
-import { Dictionary, DictionaryWord, KaikkiDictionary, KaikkiWord, WordId } from './types';
+import { Dictionary, KaikkiEntries, WordId } from './types';
 import { mostCommonWordsLemmatize } from './most-common-words-fr-lemmatize';
+import { kaikkiFrEnWords } from './kaikki-words-fr-en-entries';
 
-const KAIKKI_DICT_PATH_FILE = './resources/kaikki.org-dictionary-French.jsonl';
+
 const OUTPUT_DICT_PATH_FILE = './output/10000-most-common-words-en-fr-dict.json';
 
 export async function generateMostCommonWordsFrEnDict() {
@@ -13,58 +13,45 @@ export async function generateMostCommonWordsFrEnDict() {
     printLog("✅ Generating dictionary with the 10000 most common words\n")
 
     printLog("⏳ Generating dictionary for Kaikki words...")
-    const fileStream = fs.createReadStream(KAIKKI_DICT_PATH_FILE);
-    const kaikkiDictionary: KaikkiDictionary = new Map();
-    const rl = readline.createInterface({
-        input: fileStream,
-        crlfDelay: Infinity
-    });
-    for await (const line of rl) {
-        try {
-            const jsonObject: KaikkiWord = JSON.parse(line);
-            const wordId = `${jsonObject.word}-${jsonObject.pos}` as WordId;
-            kaikkiDictionary.set(wordId, jsonObject)
-        } catch (err) {
-            console.error(`Error parsing line: ${line}`, err);
-        }
-    }
-    printLog(`✅ Generating dictionary for  ${kaikkiDictionary.size} Kaikki words\n`);
+    const kaikkiEntries: KaikkiEntries = await kaikkiFrEnWords();
+    printLog(`✅ Generating dictionary for  ${kaikkiEntries.size} Kaikki words\n`);
 
 
     const logLine = "⏳ Adding Kaikki info to dictionary with the 10000 most common words..."
     printLog(logLine)
     let counter = 0;
     const dictionary: Dictionary = new Map();
-    const kaikkiEntries = Array.from(kaikkiDictionary.entries());
     for (const word of baseWords) {
         try {
-            const dictWord = kaikkiDictionary.get(word);
-            if (dictWord) {
-                dictionary.set(word, {
-                    word: dictWord.word,
-                    rank: baseDictionary.get(word)!.rank,
-                    category: dictWord.pos,
-                    pronunciation: dictWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
-                    senses: dictWord.senses,
-                })
-            } else {
-                // If it is not found, it might be because the word category didn't match Kaikki category.
-                // Let's find the Kaikki word that equals to the base word but has different category
-                const kaikkiEntry = kaikkiEntries.find(([kaikkiWord]) => {
-                    const [kw, kc] = kaikkiWord.split('-');
-                    const [w, c] = word.split('-');
-                    return kw.toLowerCase() === w.toLowerCase() && kc.toLowerCase() !== c.toLowerCase()
-                });
-                if (kaikkiEntry) {
-                    const [wordId, kaikkiWord] = kaikkiEntry
+            const kaikkiWords = kaikkiEntries[word.split('-')[0]];
+            if (kaikkiWords) {
+                kaikkiWords.forEach(w => {
+                    const wordId = w.word + '-' + w.pos as WordId;
                     dictionary.set(wordId, {
-                        word: kaikkiWord.word,
-                        rank: baseDictionary.get(word)!.rank,
-                        category: kaikkiWord.pos,
-                        pronunciation: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
-                        senses: kaikkiWord.senses,
+                        word: w.word,
+                        rank: dictionary.size + 1,
+                        category: w.pos,
+                        pronunciation: w.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
+                        senses: w.senses,
                     })
-                }
+
+                    if (w.antonyms?.length) {
+                        w.antonyms.forEach(a => {
+                            kaikkiEntries[a.word]?.forEach(aw => {
+                                const awId = aw.word + '-' + aw.pos as WordId;
+                                if (!dictionary.has(awId)) {
+                                    dictionary.set(awId, {
+                                        word: aw.word,
+                                        rank: dictionary.size + 1,
+                                        category: aw.pos,
+                                        pronunciation: aw.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
+                                        senses: aw.senses,
+                                    })
+                                }
+                            });
+                        })
+                    }
+                })
             }
         }
         catch (err) {

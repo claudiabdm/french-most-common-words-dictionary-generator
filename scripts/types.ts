@@ -61,6 +61,9 @@ export type BaseDictionary = Map<WordId, BaseWord>
 export interface KaikkiWord {
     pos: Category,
     word: string,
+    antonyms?: Array<{
+        word: string
+    }>
     sounds?: Array<{
         audio: `LL-Q150 ${string}`,
         ogg_url: `${string}.ogg`
@@ -73,7 +76,7 @@ export interface KaikkiWord {
         glosses: Array<String>
     }]
 }
-export type KaikkiDictionary = Map<WordId, KaikkiWord>
+export type KaikkiEntries = Record<string, KaikkiWord[]>
 
 export interface DictionaryWord extends BaseWord, Pick<KaikkiWord, 'senses'> {
     pronunciation: `${string}.ogg` | undefined
