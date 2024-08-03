@@ -47,7 +47,7 @@ export interface KaikkiWord {
             text: string,
             english: string
         }>,
-        glosses: Array<String>
+        glosses: Array<string>
     }]
 }
 export type KaikkiEntries = Record<string, KaikkiWord[]>
