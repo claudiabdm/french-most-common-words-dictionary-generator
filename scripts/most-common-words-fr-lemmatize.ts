@@ -1,6 +1,6 @@
 import fs from 'fs';
 import csv from 'csv-parser';
-import { Category, legendLexiqueKaikki, CategoryKey, BaseDictionary, WordId } from '../types';
+import { Category, legendLexiqueKaikki, CategoryKey, BaseDictionary } from '../types';
 
 const CSV_FILE_PATH = './resources/words-sorted-by-freq-lemme.csv'
 
@@ -19,10 +19,9 @@ export function mostCommonWordsLemmatize(jsonFilePath?: string): Promise<BaseDic
             .on('data', (row) => {
                 const [word, lemme, cgram] = row['Word;lemme;cgram;freqlemfilms2;freqfilms2;cgramortho;'].split(';');
                 const category = legendLexiqueKaikki[cgram as CategoryKey] as Category;
-                const wordId = `${word}-${category}` as WordId;
-                if (category && lemme === word && !jsonData.has(wordId)) {
+                if (category && lemme === word && !jsonData.has(word)) {
                     jsonData.set(
-                        wordId,
+                        word,
                         {
                             word,
                             category,

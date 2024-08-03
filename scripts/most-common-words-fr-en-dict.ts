@@ -4,11 +4,7 @@ import { BaseDictionary, Dictionary, DictionaryWord, KaikkiEntries, KaikkiWord, 
 import { mostCommonWordsLemmatize } from './most-common-words-fr-lemmatize';
 import { kaikkiFrEnWords } from './kaikki-words-fr-en-entries';
 
-
-const OUTPUT_DICT_PATH_FILE = './output/10000-most-common-words-en-fr-dict';
-
-
-
+const OUTPUT_DICT_PATH_FILE = './output/10000-most-common-words-en-fr-dict.json';
 
 export async function generateMostCommonWordsFrEnDict(output = OUTPUT_DICT_PATH_FILE) {
     printLog("⏳ Generating dictionary with the 10000 most common words...")
@@ -32,8 +28,8 @@ export async function generateMostCommonWordsFrEnDict(output = OUTPUT_DICT_PATH_
         fs.mkdirSync(dir, { recursive: true });
     }
 
-    fs.writeFileSync(output, JSON.stringify(Object.fromEntries([...dictionary].map(([k, v]) => [k, [...v]]))));
-    printLog(`\n✨ You can find the ${dictionary.size} most commont words English-French dictionary in ${output} ` + '\n')
+    fs.writeFileSync(output, JSON.stringify(Object.fromEntries(dictionary)));
+    printLog(`\n✨ You can find the ${dictionary.size} most common words English-French dictionary in ${output} ` + '\n')
 }
 
 function printLog(str: string) {
@@ -42,27 +38,24 @@ function printLog(str: string) {
     process.stdout.write(str);
 }
 
-function createNewWord(kaikkiWord: KaikkiWord, size = 0) {
+function createNewWord(kaikkiWord: KaikkiWord, size = 0): DictionaryWord {
     return {
         word: kaikkiWord.word,
         rank: size + 1,
         category: kaikkiWord.pos,
         pronunciation: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
         senses: kaikkiWord.senses,
+        head: kaikkiWord.head_templates?.map(h => h.expansion),
     }
 }
 
-function addWordEntry(mainDict: Dictionary, wordId: WordId, kaikkiWord: KaikkiWord, newWord: DictionaryWord) {
+function addWordEntry(mainDict: Dictionary, kaikkiWord: KaikkiWord, newWord: DictionaryWord) {
     // Group different entries for the same word
     if (!mainDict.has(kaikkiWord.word)) {
-        const newMap: Map<WordId, DictionaryWord> = new Map();
-        newMap.set(wordId, newWord);
-        mainDict.set(kaikkiWord.word, newMap);
+        mainDict.set(kaikkiWord.word, [newWord]);
     } else {
         const wordInDict = mainDict.get(kaikkiWord.word)!;
-        if (!wordInDict.has(wordId)) {
-            wordInDict.set(wordId, newWord);
-        }
+        wordInDict.push(newWord);
     }
 }
 
@@ -71,22 +64,23 @@ function generateDictionary(baseDictionary: BaseDictionary, kaikkiEntries: Kaikk
     const logLine = "⏳ Adding Kaikki info to dictionary with the 10000 most common words..."
     printLog(logLine)
     let counter = 0;
+    let times = 0
     const dictionary: Dictionary = new Map();
     for (const word of baseWords) {
+        if (word.includes('être')) console.log(word);
         try {
             const kaikkiWords = kaikkiEntries[word.split('-')[0]];
+            if (kaikkiWords?.[0].word === 'être') console.log(kaikkiWords.length)
             if (kaikkiWords) {
                 kaikkiWords.forEach(w => {
                     const newWord = createNewWord(w, dictionary.size);
-                    const wordId = newWord.word + '-' + newWord.category as WordId;
-                    addWordEntry(dictionary, wordId, w, newWord);
+                    addWordEntry(dictionary, w, newWord);
 
                     if (w.antonyms?.length) {
                         w.antonyms.forEach(a => {
                             kaikkiEntries[a.word]?.forEach(aw => {
                                 const newWord = createNewWord(aw, dictionary.size);
-                                const wordId = newWord.word + '-' + newWord.category as WordId;
-                                addWordEntry(dictionary, wordId, aw, newWord);
+                                addWordEntry(dictionary, aw, newWord);
                             });
                         })
                     }

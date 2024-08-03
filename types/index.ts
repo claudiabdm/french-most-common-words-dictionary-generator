@@ -35,6 +35,9 @@ export type BaseDictionary = Map<WordId, BaseWord>
 export interface KaikkiWord {
     pos: Category,
     word: string,
+    head_templates: Array<{
+        expansion: string
+    }>
     antonyms?: Array<{
         word: string
     }>
@@ -53,7 +56,8 @@ export interface KaikkiWord {
 export type KaikkiEntries = Record<string, KaikkiWord[]>
 
 export interface DictionaryWord extends BaseWord, Pick<KaikkiWord, 'senses'> {
-    pronunciation: `${string}.ogg` | undefined
+    pronunciation: `${string}.ogg` | undefined,
+    head?: Array<string>
 }
 
-export type Dictionary = Map<string, Map<WordId, DictionaryWord>>
+export type Dictionary = Map<string, Array<DictionaryWord>>
