@@ -1,0 +1,28 @@
+{
+  "name": "most-common-words-fr-dict-generator",
+  "version": "1.0.0",
+  "description": "Generates an English-French dictionary that contains the 10000 most common words in French. ",
+  "main": "index.ts",
+  "keywords": [
+    "french",
+    "dictionary",
+    "words",
+    "english",
+    "wiktionary",
+    "lexique"
+  ],
+  "types": "./src/types/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claudiabdm/french-most-common-words-dictionary-generator.git"
+  },
+  "author": "claudiabdm",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/claudiabdm/french-most-common-words-dictionary-generator/issues"
+  },
+  "homepage": "https://github.com/claudiabdm/french-most-common-words-dictionary-generator#readme"
+}

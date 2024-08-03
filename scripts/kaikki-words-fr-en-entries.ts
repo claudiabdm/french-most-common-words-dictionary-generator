@@ -1,6 +1,6 @@
 import fs from 'fs';
 import readline from 'readline';
-import { KaikkiEntries, KaikkiWord } from './types';
+import { KaikkiEntries, KaikkiWord } from '../types';
 
 const KAIKKI_DICT_PATH_FILE = './resources/kaikki.org-dictionary-French.jsonl';
 

@@ -1,29 +1,3 @@
-const legend = {
-    "ADJ": "Adjective",
-    "ADJ:dem": "Demonstrative adjective",
-    "ADJ:ind": "Indefinite adjective",
-    "ADJ:int": "Interrogative adjective",
-    "ADJ:num": "Numeric adjective",
-    "ADJ:pos": "Possessive adjective",
-    "ADV": "Adverb",
-    "ART:def": "Definite article",
-    "ART:inf": "Indefinite article",
-    "AUX": "Auxiliary",
-    "CON": "Conjunction",
-    "LIA": "Euphonic liaison (l')",
-    "NOM": "Common noun",
-    "ONO": "Onomatopoeia",
-    "PRE": "Preposition",
-    "PRO:dem": "Demonstrative pronoun",
-    "PRO:ind": "Indefinite pronoun",
-    "PRO:int": "Interrogative pronoun",
-    "PRO:per": "Personal pronoun",
-    "PRO:pos": "Possessive pronoun",
-    "PRO:rel": "Relative pronoun",
-    "VER": "Verb"
-} as const
-
-
 export const legendLexiqueKaikki = {
     "NOM": 'noun',
     "ADJ": 'adj',

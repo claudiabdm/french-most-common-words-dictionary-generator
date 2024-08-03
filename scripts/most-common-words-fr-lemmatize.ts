@@ -1,6 +1,6 @@
 import fs from 'fs';
 import csv from 'csv-parser';
-import { Category, legendLexiqueKaikki, CategoryKey, BaseDictionary, WordId } from './types';
+import { Category, legendLexiqueKaikki, CategoryKey, BaseDictionary, WordId } from '../types';
 
 const CSV_FILE_PATH = './resources/words-sorted-by-freq-lemme.csv'
 

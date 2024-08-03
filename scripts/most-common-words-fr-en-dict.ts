@@ -1,12 +1,16 @@
 import fs from 'fs';
-import { BaseDictionary, Dictionary, DictionaryWord, KaikkiEntries, KaikkiWord, WordId } from './types';
+import path from 'node:path';
+import { BaseDictionary, Dictionary, DictionaryWord, KaikkiEntries, KaikkiWord, WordId } from '../types';
 import { mostCommonWordsLemmatize } from './most-common-words-fr-lemmatize';
 import { kaikkiFrEnWords } from './kaikki-words-fr-en-entries';
 
 
 const OUTPUT_DICT_PATH_FILE = './output/10000-most-common-words-en-fr-dict';
 
-export async function generateMostCommonWordsFrEnDict() {
+
+
+
+export async function generateMostCommonWordsFrEnDict(output = OUTPUT_DICT_PATH_FILE) {
     printLog("⏳ Generating dictionary with the 10000 most common words...")
     const baseDictionary = await mostCommonWordsLemmatize()
     printLog("✅ Generating dictionary with the 10000 most common words\n")
@@ -21,8 +25,15 @@ export async function generateMostCommonWordsFrEnDict() {
     const dictionary: Dictionary = generateDictionary(baseDictionary, kaikkiEntries, baseDictionary.size)
 
     printLog("✅ Adding Kaikki info to dictionary with the 10000 most common words\n")
-    fs.writeFileSync(OUTPUT_DICT_PATH_FILE + '.json', JSON.stringify(Object.fromEntries([...dictionary].map(([k, v]) => [k, [...v]]))));
-    printLog(`\n✨ You can find the ${dictionary.size} most commont words English-French dictionary in ${OUTPUT_DICT_PATH_FILE}.js and ${OUTPUT_DICT_PATH_FILE}.json ` + '\n')
+
+    const outputResolve = path.resolve('./output/10000-most-common-words-en-fr-dict.json');
+    if (!fs.existsSync(outputResolve)) {
+        const dir = path.dirname(output);
+        fs.mkdirSync(dir, { recursive: true });
+    }
+
+    fs.writeFileSync(output, JSON.stringify(Object.fromEntries([...dictionary].map(([k, v]) => [k, [...v]]))));
+    printLog(`\n✨ You can find the ${dictionary.size} most commont words English-French dictionary in ${output} ` + '\n')
 }
 
 function printLog(str: string) {
