@@ -82,4 +82,4 @@ export interface DictionaryWord extends BaseWord, Pick<KaikkiWord, 'senses'> {
     pronunciation: `${string}.ogg` | undefined
 }
 
-export type Dictionary = Map<WordId, DictionaryWord>
+export type Dictionary = Map<string, Map<WordId, DictionaryWord>>
