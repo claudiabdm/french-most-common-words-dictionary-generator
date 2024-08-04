@@ -30,7 +30,7 @@ export type Category = typeof legendLexiqueKaikki[CategoryKey];
 export type WordId = `${string}-${Category}`;
 
 export interface BaseWord { word: string, category: Category, rank: number }
-export type BaseDictionary = Map<WordId, BaseWord>
+export type BaseDictionary = Map<string, BaseWord>
 
 export interface KaikkiWord {
     pos: Category,

@@ -77,10 +77,12 @@ function generateDictionary(baseDictionary: BaseDictionary, kaikkiEntries: Kaikk
 
                     if (w.antonyms?.length) {
                         w.antonyms.forEach(a => {
-                            kaikkiEntries[a.word]?.forEach(aw => {
-                                const newWord = createNewWord(aw, dictionary.size);
-                                addWordEntry(dictionary, aw, newWord);
-                            });
+                            if(!dictionary.has(a.word) && !baseDictionary.has(a.word)) {
+                                kaikkiEntries[a.word]?.forEach(aw => {
+                                    const newWord = createNewWord(aw, dictionary.size);
+                                    addWordEntry(dictionary, aw, newWord);
+                                });
+                            }
                         })
                     }
                 })
