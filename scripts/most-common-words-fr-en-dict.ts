@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'node:path';
-import { BaseDictionary, Dictionary, DictionaryWord, KaikkiEntries, KaikkiWord, WordId } from '../types';
+import { BaseDictionary, Dictionary, DictionaryWord, KaikkiEntries, KaikkiWord } from '../types';
 import { mostCommonWordsLemmatize } from './most-common-words-fr-lemmatize';
 import { kaikkiFrEnWords } from './kaikki-words-fr-en-entries';
 
@@ -69,7 +69,7 @@ function generateDictionary(baseDictionary: BaseDictionary, kaikkiEntries: Kaikk
     const dictionary: Dictionary = new Map();
     for (const word of baseWords) {
         try {
-            const kaikkiWords = kaikkiEntries[word.split('-')[0]];
+            const kaikkiWords = kaikkiEntries[word];
             if (kaikkiWords) {
                 kaikkiWords.forEach(w => {
                     const newWord = createNewWord(w, dictionary.size);
@@ -77,7 +77,7 @@ function generateDictionary(baseDictionary: BaseDictionary, kaikkiEntries: Kaikk
 
                     if (w.antonyms?.length) {
                         w.antonyms.forEach(a => {
-                            if(!dictionary.has(a.word) && !baseDictionary.has(a.word)) {
+                            if (!dictionary.has(a.word) && !baseDictionary.has(a.word)) {
                                 kaikkiEntries[a.word]?.forEach(aw => {
                                     const newWord = createNewWord(aw, dictionary.size);
                                     addWordEntry(dictionary, aw, newWord);
