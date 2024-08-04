@@ -44,6 +44,7 @@ export interface KaikkiWord {
     sounds?: Array<{
         audio: `LL-Q150 ${string}`,
         ogg_url: `${string}.ogg`
+        mp3_url: `${string}.mp3`
     }>,
     senses: [{
         examples: Array<{
@@ -56,7 +57,8 @@ export interface KaikkiWord {
 export type KaikkiEntries = Record<string, KaikkiWord[]>
 
 export interface DictionaryWord extends BaseWord, Pick<KaikkiWord, 'senses'> {
-    pronunciation: `${string}.ogg` | undefined,
+    pronunciation_ogg: `${string}.ogg` | undefined,
+    pronunciation_mp3: `${string}.mp3` | undefined,
     head?: Array<string>
 }
 

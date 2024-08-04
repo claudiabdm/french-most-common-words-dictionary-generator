@@ -43,7 +43,8 @@ function createNewWord(kaikkiWord: KaikkiWord, size = 0): DictionaryWord {
         word: kaikkiWord.word,
         rank: size + 1,
         category: kaikkiWord.pos,
-        pronunciation: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
+        pronunciation_ogg: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
+        pronunciation_mp3: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.mp3_url,
         senses: kaikkiWord.senses,
         head: kaikkiWord.head_templates?.map(h => h.expansion),
     }
@@ -64,13 +65,10 @@ function generateDictionary(baseDictionary: BaseDictionary, kaikkiEntries: Kaikk
     const logLine = "⏳ Adding Kaikki info to dictionary with the 10000 most common words..."
     printLog(logLine)
     let counter = 0;
-    let times = 0
     const dictionary: Dictionary = new Map();
     for (const word of baseWords) {
-        if (word.includes('être')) console.log(word);
         try {
             const kaikkiWords = kaikkiEntries[word.split('-')[0]];
-            if (kaikkiWords?.[0].word === 'être') console.log(kaikkiWords.length)
             if (kaikkiWords) {
                 kaikkiWords.forEach(w => {
                     const newWord = createNewWord(w, dictionary.size);
