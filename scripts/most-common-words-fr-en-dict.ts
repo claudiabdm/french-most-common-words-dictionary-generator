@@ -43,8 +43,8 @@ function createNewWord(kaikkiWord: KaikkiWord, size = 0): DictionaryWord {
         word: kaikkiWord.word,
         rank: size + 1,
         category: kaikkiWord.pos,
-        pronunciation_ogg: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.ogg_url,
-        pronunciation_mp3: kaikkiWord.sounds?.find(s => s.audio?.includes('LL-Q150'))?.mp3_url,
+        pronunciation_ogg: kaikkiWord.sounds?.find(s => s.ogg_url)?.ogg_url,
+        pronunciation_mp3: kaikkiWord.sounds?.find(s => s.mp3_url)?.mp3_url,
         senses: kaikkiWord.senses,
         head: kaikkiWord.head_templates?.map(h => h.expansion),
     }
