@@ -43,6 +43,7 @@ function createNewWord(kaikkiWord: KaikkiWord, size = 0): DictionaryWord {
         word: kaikkiWord.word,
         rank: size + 1,
         category: kaikkiWord.pos,
+        ipa: kaikkiWord.sounds?.find(s => s.ipa)?.ipa,
         pronunciation_ogg: kaikkiWord.sounds?.find(s => s.ogg_url)?.ogg_url,
         pronunciation_mp3: kaikkiWord.sounds?.find(s => s.mp3_url)?.mp3_url,
         senses: kaikkiWord.senses,

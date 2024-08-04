@@ -41,15 +41,19 @@ export interface KaikkiWord {
     antonyms?: Array<{
         word: string
     }>
-    sounds?: Array<{
-        audio: `LL-Q150 ${string}`,
-        ogg_url: `${string}.ogg`
-        mp3_url: `${string}.mp3`
-    }>,
+    sounds?: Array<
+        { ipa: string } &
+        {
+            audio: `LL-Q150 ${string}`,
+            ogg_url: `${string}.ogg`
+            mp3_url: `${string}.mp3`
+        }
+    >,
     senses: [{
         examples: Array<{
             text: string,
             english: string
+            type: string | 'quotation'
         }>,
         glosses: Array<string>
     }]
@@ -57,6 +61,7 @@ export interface KaikkiWord {
 export type KaikkiEntries = Record<string, KaikkiWord[]>
 
 export interface DictionaryWord extends BaseWord, Pick<KaikkiWord, 'senses'> {
+    ipa: string | undefined,
     pronunciation_ogg: `${string}.ogg` | undefined,
     pronunciation_mp3: `${string}.mp3` | undefined,
     head?: Array<string>
