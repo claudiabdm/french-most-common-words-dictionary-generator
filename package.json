@@ -1,6 +1,6 @@
 {
   "name": "most-common-words-fr-dict-generator",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Generates an English-French dictionary that contains the 10000 most common words in French. ",
   "main": "index.ts",
   "keywords": [
